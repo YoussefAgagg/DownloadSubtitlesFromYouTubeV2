@@ -3,9 +3,7 @@ package email.com.gmail.youssefagagg.DownloadSubtitlesFromYouTubeV2;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 
-import java.net.URL;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
+
 import org.xml.sax.SAXException;
 import javafx.concurrent.Task;
 
@@ -41,17 +39,13 @@ public class DownSubTask extends Task<List<VideoInfo>> {
 		String fileDir=file+File.separator+fileName+".srt";
 	//	System.out.println(fileDir);
 		try {
-			
 
-			String xmlString =new String(FetchDataUtility.getUrlBytes(new URL(video.getURLToDownloadTheCaption(lang))));
-			//System.out.println(xmlString);
-			
 			File f=new File(fileDir);
 			if(!f.exists())f.createNewFile();
 			FileWriter fw=new FileWriter(f);
 			int counter=1;
 			
-			var rootElement=loadXMLFromString(xmlString).getDocumentElement();
+			var rootElement=loadXMLFromString(video.getURLToDownloadTheCaption(lang)).getDocumentElement();
 			
 			var texts=rootElement.getChildNodes();
 			for(int i=0;i<texts.getLength();i++) {
@@ -78,12 +72,12 @@ public class DownSubTask extends Task<List<VideoInfo>> {
 
 
 	}
-	private  Document loadXMLFromString(String xml) throws ParserConfigurationException, SAXException, IOException 
+	private  Document loadXMLFromString(String uri) throws ParserConfigurationException, SAXException, IOException 
 	{
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder builder = factory.newDocumentBuilder();
-	    InputSource is = new InputSource(new StringReader(xml));
-	    return builder.parse(is);
+
+	    return builder.parse(uri);
 	}
 	private  String captionTime(Element node) {
 	StringBuilder result=new StringBuilder();

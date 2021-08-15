@@ -3,22 +3,25 @@ package email.com.gmail.youssefagagg.DownloadSubtitlesFromYouTubeV2;
 
 
 
+import com.github.kiulian.downloader.YoutubeDownloader;
 import com.github.kiulian.downloader.downloader.request.RequestVideoInfo;
 
 import javafx.concurrent.Task;
 public class GetVideoInfoTask extends Task<VideoInfo> {
 	private String videoId;
+	private YoutubeDownloader downloader;
 	
-	public GetVideoInfoTask(String videoId) {
+	public GetVideoInfoTask(String videoId,YoutubeDownloader downloader) {
 		
 		this.videoId = videoId;
+		this.downloader=downloader;
 	}
 	
 
 	private  VideoInfo getVideoInfo(String id) throws Exception {
 		
 		RequestVideoInfo request = new RequestVideoInfo(id);
-		var response = FetchDataUtility.downloader.getVideoInfo(request);
+		var response = downloader.getVideoInfo(request);
 		var video = response.data();
 
 			if(video!=null)

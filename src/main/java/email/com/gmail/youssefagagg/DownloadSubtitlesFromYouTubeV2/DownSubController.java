@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.github.kiulian.downloader.YoutubeDownloader;
+
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -104,9 +106,11 @@ public class DownSubController {
 			Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
 
 	private String lang="en";
+	private YoutubeDownloader youtubeDownloader;
 
 	public void initialize() 
 	{
+		youtubeDownloader=new YoutubeDownloader();
 		folderTextField.setText(fileDir);
 		constructTheTable();
 		
@@ -267,7 +271,7 @@ public class DownSubController {
 				goButton.setDisable(false);
 			}else {
 				
-				Task<List<String>>task=new GetPlaylistIDsTask(listId);
+				Task<List<String>>task=new GetPlaylistIDsTask(listId,youtubeDownloader);
 				
 				task.setOnRunning(value->{
 					loadingLable.setText("loading...");
@@ -306,10 +310,10 @@ public class DownSubController {
 	
 
 	private void getVideoInfoAndAddToTable(String id,int index,int size) {
-		downloadButtonContainer.setDisable(true);
-		Task<VideoInfo>task=new GetVideoInfoTask(id);
+	
+		Task<VideoInfo>task=new GetVideoInfoTask(id,youtubeDownloader);
 		task.setOnRunning(value->{
-			loadingLable.setText(index+"/"+size+"loading...");
+			loadingLable.setText(index+"/"+size+" loading...");
 			
 		});
 		task.setOnSucceeded(value->{
@@ -323,6 +327,8 @@ public class DownSubController {
 			if(task.getValue()!=null)
 				tableListItems.add(task.getValue());
 			else errorTextArea.setText("unvalid url");
+			
+			
 			if(tableListItems.size()==size) {
 				downloadButtonContainer.setDisable(false);
 				loadingLable.setText("done");

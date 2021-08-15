@@ -3,7 +3,7 @@ package email.com.gmail.youssefagagg.DownloadSubtitlesFromYouTubeV2;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+import com.github.kiulian.downloader.YoutubeDownloader;
 import com.github.kiulian.downloader.downloader.request.RequestPlaylistInfo;
 import com.github.kiulian.downloader.downloader.response.Response;
 
@@ -12,11 +12,13 @@ import javafx.concurrent.Task;
 import java.sql.*;
 public class GetPlaylistIDsTask extends Task<List<String>> {
 	private String playlistId;
-
+	private YoutubeDownloader downloader;
 	 
 
-	public GetPlaylistIDsTask(String playlistId) {
+	@SuppressWarnings("exports")
+	public GetPlaylistIDsTask(String playlistId,YoutubeDownloader downloader) {
 		this.playlistId = playlistId;
+		this.downloader=downloader;
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class GetPlaylistIDsTask extends Task<List<String>> {
 		
     	
     	RequestPlaylistInfo request = new RequestPlaylistInfo(playlistId);
-    	Response<PlaylistInfo> response = FetchDataUtility.downloader.getPlaylistInfo(request);
+    	Response<PlaylistInfo> response = downloader.getPlaylistInfo(request);
     	PlaylistInfo playlistInfo = response.data();
     	
     	List<String> list=playlistInfo.videos().stream()
