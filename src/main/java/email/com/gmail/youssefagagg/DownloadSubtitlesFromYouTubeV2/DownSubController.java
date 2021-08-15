@@ -103,7 +103,7 @@ public class DownSubController {
 	private String fileDir=System.getProperty("user.home");
 
 	private ExecutorService executorService =
-			Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
+			Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
 	private String lang="en";
 	private YoutubeDownloader youtubeDownloader;

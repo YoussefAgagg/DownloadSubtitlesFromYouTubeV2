@@ -11,6 +11,7 @@ public class GetVideoInfoTask extends Task<VideoInfo> {
 	private String videoId;
 	private YoutubeDownloader downloader;
 	
+	@SuppressWarnings("exports")
 	public GetVideoInfoTask(String videoId,YoutubeDownloader downloader) {
 		
 		this.videoId = videoId;
@@ -18,7 +19,7 @@ public class GetVideoInfoTask extends Task<VideoInfo> {
 	}
 	
 
-	private  VideoInfo getVideoInfo(String id) throws Exception {
+	private  VideoInfo getVideoInfo(String id)  {
 		
 		RequestVideoInfo request = new RequestVideoInfo(id);
 		var response = downloader.getVideoInfo(request);
@@ -33,7 +34,7 @@ public class GetVideoInfoTask extends Task<VideoInfo> {
 
 
 	@Override
-	protected VideoInfo call() throws Exception {
+	protected VideoInfo call()   {
 		
 		return getVideoInfo(videoId);
 	}

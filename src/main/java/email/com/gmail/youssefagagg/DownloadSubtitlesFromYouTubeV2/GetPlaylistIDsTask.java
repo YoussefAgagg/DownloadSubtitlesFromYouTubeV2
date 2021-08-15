@@ -22,7 +22,7 @@ public class GetPlaylistIDsTask extends Task<List<String>> {
 	}
 
 	@Override
-	protected List<String> call() throws Exception {
+	protected List<String> call() {
 		// TODO Auto-generated method stub
 		List<String>ids=fetchVideosIDsByJavaYoutubeDownloderLib();
 		System.out.println(ids.size());
