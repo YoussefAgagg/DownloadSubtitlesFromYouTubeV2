@@ -1,5 +1,5 @@
 # DownloadSubtitlesFromYouTubeV2
-download subtitles from video or  playlist by one click
+download subtitles from youtube video or  playlist by one click
 ## Technologies
 * java 11
 * javafx
